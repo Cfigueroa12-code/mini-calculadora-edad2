@@ -1,21 +1,42 @@
+// FUNCION PARA CALCULAR EDAD
 function calcularEdad() {
-  const fechaNacimiento = document.getElementById("birthdate").value;
-  const resultado = document.getElementById("resultado");
+    // OBTENER LA FECHA INGRESADA DESDE EL INPUT
+    const input = document.getElementById("").value;
+    const resultado = document.getElementById("resultado");
 
-  if (!fechaNacimiento) {
-    resultado.innerText = " Ingresa una fecha válida.";
-    return;
-  }
+    // VALIDAR SI SE INGRESO FECHA O NO
+    if (!input) {
+        resultado.textContent = "Error, ingresa una fecha";
+        return;
+    }
 
-  const nacimiento = new Date(fechaNacimiento);
-  const hoy = new Date();
+    // CONVERTIR STRING A DATE
+    const fechaNacimiento = new Date(input);
+    const hoy = new Date();
 
-  let edad = hoy.getFullYear() - nacimiento.getFullYear();
-  const mes = hoy.getMonth() - nacimiento.getMonth();
+    // VALIDAR QUE LA FECHA NO SEA FUTURO
+    if (fechaNacimiento > hoy) {
+        resultado.textContent = "La fecha ingresada es futura";
+        return;
+    }
 
-  if (mes < 0 || (mes === 0 && hoy.getDate() < nacimiento.getDate())) {
-    edad--;
-  }
+    // CALCULAR LA EDAD
+    let edad = hoy.getFullYear() - fechaNacimiento.getFullYear();
 
-  resultado.innerText = `Tienes ${edad} años`;
+    // VERIFICAR SI YA PASO SU CUMPLEAÑOS
+    const mesActual = hoy.getMonth();
+    const diaActual = hoy.getDate();
+    const mesNacimiento = fechaNacimiento.getMonth();
+    const diaNacimiento = fechaNacimiento.getDate();
+
+    // SI SU CUMPLEAÑOS NO HA PASADO RESTAMOS 1
+    if (
+        mesActual < mesNacimiento || 
+        (mesActual === mesNacimiento && diaActual < diaNacimiento)
+    ) {
+        edad--;
+    }
+
+    // MOSTRAR RESULTADO
+    resultado.textContent = `Tienes ${edad} años.`;
 }
